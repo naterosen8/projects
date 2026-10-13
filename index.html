@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nate's Projects</title>
+<meta name="description" content="Everything I've built, in one place.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230d7d72'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='system-ui' font-weight='700'>N</text></svg>">
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --text: #10161e; --muted: #5d6877;
+    --border: #e1e6ec; --accent: #0d7d72; --warn-bg: #fff6e0; --warn: #8a5a00;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a0e13; --card: #141b25; --text: #e8ecf1; --muted: #93a0ae;
+      --border: #232c38; --accent: #2dd4bf; --warn-bg: #2a2210; --warn: #e0b455;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 960px; margin: 0 auto; padding: 48px 16px 64px; }
+  h1 { font-size: 2rem; margin: 0 0 4px; letter-spacing: -0.02em; }
+  .lede { color: var(--muted); margin: 0 0 32px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px; display: flex; flex-direction: column; gap: 10px;
+    border-top: 4px solid var(--c);
+  }
+  .card h2 { font-size: 1.15rem; margin: 0; }
+  .card p { margin: 0; color: var(--muted); font-size: 0.95rem; flex: 1; }
+  .meta { font-size: 0.8rem; color: var(--muted); }
+  .links { display: flex; gap: 8px; flex-wrap: wrap; }
+  .links a {
+    font-size: 0.9rem; font-weight: 600; text-decoration: none; padding: 8px 14px;
+    border-radius: 8px; border: 1px solid var(--border); color: var(--text);
+  }
+  .links a.open { background: var(--c); border-color: var(--c); color: #fff; }
+  .links a:hover { filter: brightness(1.08); }
+  .note { font-size: 0.8rem; background: var(--warn-bg); color: var(--warn); padding: 6px 10px; border-radius: 8px; }
+  footer { margin-top: 40px; font-size: 0.85rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Nate's Projects</h1>
+  <p class="lede">Everything I've built, in one place. Click "Open" to visit a live site.</p>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>To add or change a project, edit the <code>PROJECTS</code> list at the bottom of <code>index.html</code>.</footer>
+</main>
+
+<script>
+// One entry per project. Leave `live` empty if a project has no live site yet:
+// its card will say so and link to the code instead.
+const PROJECTS = [
+  {
+    name: 'Confluence',
+    blurb: 'A stock and crypto screener that tests whether its own signals predict anything, and publishes the answer.',
+    live: 'https://confluence-self.vercel.app',
+    repo: 'https://github.com/naterosen8/Confluence',
+    updated: 'Oct 2026',
+    color: '#0d9488',
+  },
+  {
+    name: 'Beach Check',
+    blurb: 'How busy the beaches near you are before you leave: crowds, parking, surf, tides and weather.',
+    live: 'https://beachtrackermine.vercel.app',
+    repo: 'https://github.com/naterosen8/beachtrackermine',
+    updated: 'Oct 2026',
+    color: '#0284c7',
+  },
+  {
+    name: 'Trailhead',
+    blurb: 'A social network for people building themselves. Post the in-progress version, not the highlight reel.',
+    live: 'https://trailhead-sigma.vercel.app',
+    repo: 'https://github.com/naterosen8/Trailhead',
+    updated: 'Sep 2026',
+    color: '#b45309',
+  },
+  {
+    name: 'Bitcoin DCA Calculator',
+    blurb: 'What buying a fixed dollar amount of Bitcoin on a schedule would have turned into, using real prices and fees.',
+    live: '',
+    repo: 'https://github.com/naterosen8/BTC',
+    updated: 'Sep 2026',
+    color: '#ea580c',
+  },
+  {
+    name: 'Ground Truth',
+    blurb: "California gardening by climate, across the state's eight growing regions.",
+    live: 'https://matt-r.vercel.app',
+    repo: 'https://github.com/naterosen8/Matt-R',
+    updated: 'Aug 2026',
+    color: '#15803d',
+  },
+  {
+    name: 'Siege Hub',
+    blurb: 'Rainbow Six Siege strategy: operator counters, a live matchup tool and a game-sense quiz for all 75 operators.',
+    live: '',
+    repo: 'https://github.com/naterosen8/Siege-Hub',
+    updated: 'Aug 2026',
+    color: '#7c3aed',
+  },
+]
+
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
+document.getElementById('grid').innerHTML = PROJECTS.map((p) => `
+  <article class="card" style="--c:${p.color}">
+    <h2>${esc(p.name)}</h2>
+    <p>${esc(p.blurb)}</p>
+    ${p.live ? '' : '<span class="note">No live link yet</span>'}
+    <span class="meta">Last updated ${esc(p.updated)}</span>
+    <div class="links">
+      ${p.live ? `<a class="open" href="${p.live}" target="_blank" rel="noopener">Open ↗</a>` : ''}
+      <a href="${p.repo}" target="_blank" rel="noopener">Code</a>
+    </div>
+  </article>`).join('')
+</script>
+</body>
+</html>
